@@ -1,14 +1,9 @@
-import os
-
-from dotenv import load_dotenv
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlalchemy.orm import DeclarativeBase
 
-load_dotenv()
+from src.config import DATABASE_URL
 
-DB_NAMAE = os.getenv('DB_NAME')
-
-engine = create_async_engine(f'sqlite+aiosqlite:///{DB_NAMAE}.db')
+engine = create_async_engine(DATABASE_URL)
 async_session = async_sessionmaker(engine, expire_on_commit=False)
 
 

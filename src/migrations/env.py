@@ -1,4 +1,3 @@
-import os
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -8,13 +7,7 @@ from alembic import context
 from dotenv import load_dotenv
 
 from src.database.db import Base
-
-
-load_dotenv()
-
-DB_NAME = os.getenv('DB_NAME')
-
-DATABASE_URL = f'sqlite:///{DB_NAME}.db'
+from src.config import DATABASE_URL
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
