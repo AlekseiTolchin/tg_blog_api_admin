@@ -3,7 +3,9 @@ from typing import List, Annotated
 from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.dependencies.auth import get_current_user
 from src.schemas.posts import PostCreate, PostResponse, PostUpdate
+from src.models.users import User
 from src.repositories.post_repository import PostRepository
 from src.dependencies.db import get_db
 
@@ -19,8 +21,8 @@ post_repository = PostRepository()
 async def get_posts(
     session: AsyncSession = Depends(get_db)
 ):
+    """Получить все посты."""
     posts = await post_repository.get_all(session)
-    print(posts)
     return posts
 
 
@@ -29,6 +31,7 @@ async def get_post(
     post_id: int,
     session: AsyncSession = Depends(get_db),
 ):
+    """Получить пост по ID."""
     post = await post_repository.get_by_id(session, post_id)
     if not post:
         raise HTTPException(
@@ -42,7 +45,9 @@ async def get_post(
 async def create_post(
     post_data: Annotated[PostCreate, Depends()],
     session: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
+    """Создать новый пост (требуется аутентификация)."""
     new_post = await post_repository.create(
         session,
         title=post_data.title,
@@ -56,7 +61,9 @@ async def update_post(
     post_id: int,
     post_data: Annotated[PostUpdate, Depends()],
     session: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
+    """Обновить существующий пост (требуется аутентификация)."""
     post = await post_repository.update(
         session,
         post_id,
@@ -75,7 +82,9 @@ async def update_post(
 async def delete_post(
     post_id: int,
     session: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
+    """Обновить существующий пост (требуется аутентификация)."""
     deleted = await post_repository.delete(session, post_id)
     if not deleted:
         raise HTTPException(
