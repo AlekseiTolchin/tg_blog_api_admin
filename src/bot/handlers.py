@@ -1,23 +1,13 @@
-import logging
-import os
-
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters import CommandStart, Command
 from aiogram.enums import ChatAction
-from dotenv import load_dotenv
 
 import keyboards as kb
-from utils import fetch_from_api
-
-load_dotenv()
-
-API_URL = os.getenv('API_URL')
+from utils import fetch_from_api, logger, format_post_date
+from src.config import API_URL
 
 router = Router()
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 
 @router.message(CommandStart())
@@ -38,7 +28,7 @@ async def cmd_help(message: Message):
         keyboard = await kb.create_posts_keyboard(posts)
         await message.answer('Выберите пост для чтения:', reply_markup=keyboard)
     except Exception as e:
-        logging.error(f'Ошибка при получении постов: {e}')
+        logger.error(f'Ошибка при получении постов: {e}')
         await message.answer('Произошла ошибка при получении списка постов. Попробуйте позже.')
 
 
@@ -47,14 +37,14 @@ async def process_post(callback: CallbackQuery):
     post_id = callback.data.split('_')[1]
     try:
         post = await fetch_from_api(f'{API_URL}{post_id}')
-        created_at = post['created_at'].replace('T', ' ').split('.')[0]
+        created_at = format_post_date(post['created_at'])
         message_text = (
             f"{post['text']}\n\n"
             f'Дата создания: {created_at}'
         )
-        await callback.message.answer(message_text, parse_mode='HTML')
+        await callback.message.answer(message_text)
     except Exception as e:
-        logging.error(f'Ошибка при получении поста {post_id}: {e}')
+        logger.error(f'Ошибка при получении поста {post_id}: {e}')
         await callback.message.answer(
             f'Не удалось получить пост. Ошибка: {str(e)}'
         )

@@ -1,14 +1,13 @@
 import asyncio
 
 from aiogram import Bot, Dispatcher
-from dotenv import load_dotenv
 
 from handlers import router
 from src.config import TG_BOT_TOKEN
+from utils import logger
 
 
 async def main():
-    load_dotenv()
     bot = Bot(token=TG_BOT_TOKEN)
     dp = Dispatcher()
     dp.startup.register(startup)
@@ -18,15 +17,15 @@ async def main():
 
 
 async def startup(dispatcher: Dispatcher):
-    print('Starting up...')
+    logger.info('Starting up...')
 
 
 async def shutdown(dispatcher: Dispatcher):
-    print('Shutting down...')
+    logger.info('Shutting down...')
 
 
 if __name__ == '__main__':
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        print('Бот выключен')
+        logger.info('Бот выключен')
