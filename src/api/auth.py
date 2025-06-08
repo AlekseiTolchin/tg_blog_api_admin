@@ -6,7 +6,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Annotated
 
 from src.models.users import User
-from src.schemas.auth import CreateUser, TokenResponse, RefreshRequest, ReadUser
+from src.schemas.auth import (
+    CreateUser,
+    TokenResponse,
+    RefreshRequest,
+    ReadUser,
+)
 from src.config import ACCESS_TOKEN_EXPIRE_MINUTES, REFRESH_TOKEN_EXPIRE_DAYS
 from src.dependencies.db import get_db
 from src.dependencies.auth import get_current_user
@@ -33,7 +38,9 @@ async def login_for_access_token(
         session: AsyncSession = Depends(get_db)
 ):
     """Аутентификация и выдача access и refresh токенов."""
-    user = await authenticate_user(session, form_data.username, form_data.password)
+    user = await authenticate_user(
+        session, form_data.username, form_data.password
+    )
 
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
@@ -61,7 +68,7 @@ async def login_for_access_token(
     return {
         'access_token': access_token,
         'refresh_token': refresh_token,
-        'token_type':'Bearer'
+        'token_type': 'Bearer'
     }
 
 
@@ -70,7 +77,9 @@ async def refresh_access_token(
         body: RefreshRequest,
         session: AsyncSession = Depends(get_db)
 ):
-    """Обновление access и refresh токена (рефреш токен инвалидируется после использования)."""
+    """
+    Обновление access и refresh токена (рефреш токен инвалидируется после использования).
+    """
     token_payload = await verify_refresh_token(body.refresh_token, session)
 
     old_token = await refresh_token_repo.get_by_token(

@@ -6,14 +6,13 @@ from fastapi import Depends, status, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
 
 from src.dependencies.db import get_db
 from src.config import JWT_SECRET_KEY
 from src.config import JWT_ALGORITHM
 from src.models.users import User
-from src.models.users import RefreshToken
 from src.repositories.user_repository import UserRepository
+from src.repositories.token_repository import RefreshTokenRepository
 
 
 CREDENTIALS_EXCEPTION = HTTPException(
@@ -25,6 +24,8 @@ CREDENTIALS_EXCEPTION = HTTPException(
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='auth/token')
 user_repository = UserRepository()
+refresh_token_repo = RefreshTokenRepository()
+
 
 async def authenticate_user(
         session: Annotated[AsyncSession, Depends(get_db)],
@@ -116,11 +117,10 @@ async def verify_refresh_token(refresh_token: str, session: AsyncSession) -> dic
         if expire is None or expire < datetime.now(timezone.utc).timestamp():
             raise CREDENTIALS_EXCEPTION
 
-        db_token = await session.scalar(
-            select(RefreshToken).where(
-                RefreshToken.token == refresh_token,
-                RefreshToken.is_revoked == False
-            )
+        db_token = await refresh_token_repo.get_by_token(
+            session=session,
+            token=refresh_token,
+            active_only=True
         )
 
         if not db_token:
