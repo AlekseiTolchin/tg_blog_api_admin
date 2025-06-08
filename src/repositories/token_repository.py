@@ -15,6 +15,7 @@ class RefreshTokenRepository:
         expires_at: datetime,
         is_revoked: bool = False
     ) -> RefreshToken:
+        """Создать refresh token."""
         refresh_token = RefreshToken(
             token=token,
             user_id=user_id,
@@ -32,6 +33,7 @@ class RefreshTokenRepository:
         token: str,
         active_only: bool = True
     ) -> Optional[RefreshToken]:
+        """Получить refresh token по его значению."""
         stmt = select(RefreshToken).where(RefreshToken.token == token)
         if active_only:
             stmt = stmt.where(RefreshToken.is_revoked == False)
@@ -43,6 +45,7 @@ class RefreshTokenRepository:
         session: AsyncSession,
         token: str
     ) -> bool:
+        """Отозвать refresh token по его значению."""
         refresh_token = await self.get_by_token(session, token, active_only=True)
         if not refresh_token:
             return False

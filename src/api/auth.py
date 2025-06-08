@@ -2,7 +2,6 @@ from datetime import timedelta, datetime, timezone
 
 from fastapi import APIRouter, Depends, status, HTTPException
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Annotated
 
@@ -83,11 +82,11 @@ async def refresh_access_token(
     if old_token:
         await refresh_token_repo.revoke(session, body.refresh_token)
 
-    user = await session.scalar(select(User).where(User.id == token_payload['id']))
+    user = await user_repository.get_by_id(session, token_payload['id'])
     if not user or not user.is_active:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="User not found or inactive"
+            detail='User not found or inactive'
         )
 
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)

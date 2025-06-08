@@ -3,6 +3,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 
 async def create_posts_keyboard(posts):
+    """Создать клавиатуру для списка постов."""
     keyboard = InlineKeyboardBuilder()
     for post in posts:
         keyboard.add(InlineKeyboardButton(text=post['title'], callback_data=f"post_{post['id']}"))

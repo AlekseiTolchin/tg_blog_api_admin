@@ -8,6 +8,9 @@ from src.models.posts import Post
 
 class PostRepository:
     async def get_all(self, session: AsyncSession) -> List[Post]:
+        """
+        Получить список всех постов, отсортированных по дате создания (новые сначала).
+        """
         result = await session.execute(
             select(Post).order_by(Post.created_at.desc())
         )
@@ -16,10 +19,12 @@ class PostRepository:
 
     async def get_by_id(
             self, session: AsyncSession, post_id: int) -> Optional[Post]:
+        """Получить пост по ID."""
         result = await session.execute(select(Post).where(Post.id == post_id))
         return result.scalar_one_or_none()
 
     async def create(self, session: AsyncSession, title: str, text: str) -> Post:
+        """Создать новый пост."""
         post = Post(title=title, text=text)
         session.add(post)
         await session.commit()
@@ -27,6 +32,7 @@ class PostRepository:
         return post
 
     async def update(self, session: AsyncSession, post_id: int, title: str, text: str) -> Optional[Post]:
+        """Обновить существующий пост."""
         result = await session.execute(select(Post).where(Post.id == post_id))
         post = result.scalar_one_or_none()
         if not post:
@@ -38,6 +44,7 @@ class PostRepository:
         return post
 
     async def delete(self, session: AsyncSession, post_id: int) -> bool:
+        """Удалить пост по ID."""
         result = await session.execute(select(Post).where(Post.id == post_id))
         post = result.scalar_one_or_none()
         if not post:

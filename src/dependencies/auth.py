@@ -18,7 +18,7 @@ async def get_current_user(
     session: AsyncSession = Depends(get_db),
 ) -> User:
     """
-    Получает пользователя по access токену, используется как Depends.
+    Получить пользователя по access токену, используется как Depends.
     """
     payload = verify_access_token(token)
     user = await user_repository.get_by_id(session, payload['id'])

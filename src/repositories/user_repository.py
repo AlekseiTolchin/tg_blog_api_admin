@@ -16,6 +16,7 @@ class UserRepository:
             hashed_password: str,
             is_active: bool = True,
     ) -> User:
+        """Создать пользователя"""
         user = User(
             first_name=first_name,
             last_name=last_name,
@@ -29,10 +30,11 @@ class UserRepository:
         return user
 
     async def get_by_id(self, session: AsyncSession, user_id: int) -> Optional[User]:
+        """Получить пользователя по ID"""
         result = await session.execute(select(User).where(User.id == user_id))
         return result.scalar_one_or_none()
 
     async def get_by_username(self, session: AsyncSession, username: str) -> Optional[User]:
-        """Получает пользователя по имени пользователя"""
+        """Получить пользователя по имени пользователя (логину)"""
         result = await session.execute(select(User).where(User.username == username))
         return result.scalar_one_or_none()
