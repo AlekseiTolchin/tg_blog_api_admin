@@ -10,8 +10,8 @@ from src.repositories.post_repository import PostRepository
 from src.dependencies.db import get_db
 
 router = APIRouter(
-    prefix='/posts',
-    tags=['Posts']
+    prefix='/api/posts',
+    tags=['posts']
 )
 
 post_repository = PostRepository()

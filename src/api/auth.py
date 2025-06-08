@@ -26,7 +26,7 @@ from src.security import (
 )
 
 
-router = APIRouter(prefix='/auth', tags=['auth'])
+router = APIRouter(prefix='/api/auth', tags=['auth'])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='auth/token')
 refresh_token_repo = RefreshTokenRepository()
 user_repository = UserRepository()
