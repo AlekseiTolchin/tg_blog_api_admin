@@ -28,7 +28,7 @@ pip install -r requirements.txt
 - `ACCESS_TOKEN_EXPIRE_MINUTES` - задано значение по умолчанию `15`
 - `REFRESH_TOKEN_EXPIRE_DAYS` - задано значение по умолчанию `7`
 
-Пример минимального файла `.env`:
+Пример минимальной конфигурации файла `.env`:
 - `TG_BOT_TOKEN` - токен Telegram-бота (получить у BotFather)
 - `JWT_SECRET_KEY`- можно создать с помощью openssl, выполнив команду `openssl rand -hex 32`
 
@@ -47,12 +47,12 @@ uvicorn src.main:app --reload
 Открыть второй терминал и также из корневой директории проекта выполнить команду для запуска бота:
 
 ```
-python src/bot/run.py
+python -m src.bot.run
 ```
 
 ## Запуск с помощью Docker-Compose
 
-Обязательно в .env прописать:
+Обязательно в `.env` прописать:
 
 - `API_URL` - `http://api:8000/api/posts/`
 
