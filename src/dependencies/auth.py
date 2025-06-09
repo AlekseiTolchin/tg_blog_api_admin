@@ -2,14 +2,16 @@ from typing import Annotated
 
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 from src.dependencies.db import get_db
 from src.models.users import User
-from src.security import verify_access_token, CREDENTIALS_EXCEPTION
+from src.security import (
+    CREDENTIALS_EXCEPTION,
+    oauth2_scheme,
+    verify_access_token,
+)
 from src.repositories.user_repository import UserRepository
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='auth/token')
 user_repository = UserRepository()
 
 

@@ -2,9 +2,9 @@ import asyncio
 
 from aiogram import Bot, Dispatcher
 
-from handlers import router
+from src.bot.handlers import router
 from src.config import TG_BOT_TOKEN
-from utils import logger
+from src.bot.utils import logger
 
 
 async def main():

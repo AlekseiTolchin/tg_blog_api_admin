@@ -22,7 +22,7 @@ CREDENTIALS_EXCEPTION = HTTPException(
 )
 
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='auth/token')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='api/auth/token')
 user_repository = UserRepository()
 refresh_token_repo = RefreshTokenRepository()
 

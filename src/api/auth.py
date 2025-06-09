@@ -1,7 +1,7 @@
 from datetime import timedelta, datetime, timezone
 
 from fastapi import APIRouter, Depends, status, HTTPException
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Annotated
 
@@ -27,7 +27,6 @@ from src.security import (
 
 
 router = APIRouter(prefix='/api/auth', tags=['auth'])
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='auth/token')
 refresh_token_repo = RefreshTokenRepository()
 user_repository = UserRepository()
 
