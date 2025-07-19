@@ -6,9 +6,8 @@ from sqlalchemy import pool
 from alembic import context
 from dotenv import load_dotenv
 
-from src.database.db import Base
-from src.models.posts import Post
-from src.models.users import User
+from src.infarastructure.database.connection import Base
+from src.infarastructure.persistence.sqlalchemy.models import PostORM
 from src.config import SYNC_DATABASE_URL
 
 # this is the Alembic Config object, which provides
@@ -26,7 +25,6 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from src.models import posts
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,

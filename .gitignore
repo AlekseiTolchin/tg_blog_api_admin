@@ -109,7 +109,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+src.env
 .venv
 env/
 venv/
@@ -145,3 +145,5 @@ cython_debug/
 .idea/
 .python-version
 posts.db
+src.env
+bot.env

@@ -8,7 +8,7 @@ services:
     volumes:
       - ./src:/app/src
     env_file:
-      - .env
+      - src.env
     restart: unless-stopped
 
   bot:
@@ -16,9 +16,9 @@ services:
       context: .
       dockerfile: Dockerfile.bot
     volumes:
-      - ./src:/app/src
+      - ./bot:/app/bot
     env_file:
-      - .env
+      - bot.env
     restart: unless-stopped
     depends_on:
       - api

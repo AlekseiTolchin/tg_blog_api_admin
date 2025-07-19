@@ -3,10 +3,10 @@ from datetime import datetime
 from sqlalchemy import String, Text, DateTime, func
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.database.db import Base
+from src.infarastructure.database.connection import Base
 
 
-class Post(Base):
+class PostORM(Base):
     __tablename__ = 'posts'
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)

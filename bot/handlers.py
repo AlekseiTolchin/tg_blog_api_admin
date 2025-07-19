@@ -3,9 +3,9 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.filters import CommandStart, Command
 from aiogram.enums import ChatAction
 
-import src.bot.keyboards as kb
-from src.bot.utils import fetch_from_api, logger, format_post_date
-from src.config import API_URL
+import bot.keyboards as kb
+from bot.utils import fetch_from_api, logger, format_post_date
+from bot.config import API_URL
 
 router = Router()
 
