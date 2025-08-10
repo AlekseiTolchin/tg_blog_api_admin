@@ -4,7 +4,7 @@ from sqlalchemy import select
 
 from src.domain.models.post import Post
 from src.domain.repositories.posts import IPostRepository
-from src.infarastructure.persistence.sqlalchemy.models import PostORM
+from src.infrastructure.persistence.sqlalchemy.models import PostORM
 
 
 class SQLAlchemyPostRepository(IPostRepository):

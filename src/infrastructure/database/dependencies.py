@@ -4,10 +4,10 @@ from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.domain.repositories.posts import IPostRepository
-from src.infarastructure.persistence.sqlalchemy.post_repository import \
+from src.infrastructure.persistence.sqlalchemy.post_repository import \
     SQLAlchemyPostRepository
 from src.application.services.post_service import PostService
-from src.infarastructure.database.connection import async_session
+from src.infrastructure.database.connection import async_session
 
 
 async def get_db_session() -> AsyncGenerator[AsyncSession, None]:

@@ -6,8 +6,8 @@ from sqlalchemy import pool
 from alembic import context
 from dotenv import load_dotenv
 
-from src.infarastructure.database.connection import Base
-from src.infarastructure.persistence.sqlalchemy.models import PostORM
+from src.infrastructure.database.connection import Base
+from src.infrastructure.persistence.sqlalchemy.models import PostORM
 from src.config import SYNC_DATABASE_URL
 
 # this is the Alembic Config object, which provides
